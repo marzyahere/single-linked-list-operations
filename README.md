@@ -10,5 +10,3 @@ A C++ program implementing 7 core linked list operations, built for a Data Struc
 ## Tech used
 - C++
 
-//## Known issues
-//- (mention the bug briefly here once you know exactly what it is)

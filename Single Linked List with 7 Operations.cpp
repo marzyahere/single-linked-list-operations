@@ -2,7 +2,7 @@
 
 struct linkedlist
 {
-    char data;
+    int data;
     struct linkedlist *next;
 };
 typedef struct linkedlist node;
@@ -53,24 +53,33 @@ node *insertAtStart(node *head, int nodeToInsert)
 
 node *insertAtIndex(node *head, int insertItem, int index)
 {
-
     node *previousNode, *newNode;
     int i;
 
+    if(index < 1)
+    {
+        printf("\nInvalid index. Index must be 1 or greater.\n");
+        return head;
+    }
+
+    if(head == NULL || index == 1)
+    {
+        return insertAtStart(head, insertItem);
+    }
+
     previousNode = head;
-    for(i = 0; i < index-1; i++)
+    for(i = 0; i < index-2 && previousNode->next != NULL; i++)
     {
         previousNode = previousNode -> next;
     }
+
     newNode = new node;
     newNode -> next = previousNode -> next;
     newNode -> data = insertItem;
     previousNode -> next = newNode;
 
     return head;
-
 }
-
 
 node *insertAtEnd(node *head, int insertItem)
 {
@@ -115,6 +124,12 @@ node *deleteFromStart(node *head)
 
 node *deleteWithValue(node *head, int itemToDelete)
 {
+    if(head == NULL)
+    {
+        printf("\n  The list is empty.  ");
+        return head;
+    }
+
     node *previousNode = head;
     node *nodeToDelete = head;
 
@@ -133,7 +148,7 @@ node *deleteWithValue(node *head, int itemToDelete)
 
     if( nodeToDelete == NULL )
     {
-        printf("\nNothing to delete.");
+        printf("\nNothing to delete.\n");
         return head;
     }
 
@@ -145,15 +160,20 @@ node *deleteWithValue(node *head, int itemToDelete)
 node *deleteFromEnd(node *head)
 {
     node *temp;
+
     if(head == NULL)
     {
         printf("\n  The list is empty.  ");
+        return head;
     }
+
     if(head -> next == NULL)
     {
         delete (head);
         head = NULL;
+        return head;
     }
+
     temp = head;
     while(temp -> next -> next != NULL)
     {
@@ -178,7 +198,6 @@ int main()
         display(head);
         displayMenu();
         printf("Enter your choice here:  ");
-        fflush(stdin);
         scanf("%d", &choice);
 
         if(choice == 1)
@@ -196,7 +215,6 @@ int main()
             scanf("%d", &index);
 
             head = insertAtIndex(head, item, index);
-
         }
         else if(choice == 3)
         {
